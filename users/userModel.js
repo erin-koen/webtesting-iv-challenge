@@ -4,8 +4,16 @@ module.exports = {
   insert,
   remove,
   findById,
-  getAll
+  get
 };
+
+function get(id) {
+  if (id)
+    return db("users")
+      .where({ id })
+      .first();
+  else return db("users");
+}
 
 function getAll() {
   return db("users");
@@ -13,9 +21,7 @@ function getAll() {
 
 async function insert(user) {
   const [id] = await db("users").insert(user);
-  return db("hobbits")
-    .where({ id })
-    .first();
+  return get(id);
 }
 
 function remove(id) {
@@ -25,9 +31,9 @@ function remove(id) {
     .del();
 }
 
-function getAll() {
-  return db("users");
-}
+// function getAll() {
+//   return db("users");
+// }
 
 function findById(id) {
   return db("users")
